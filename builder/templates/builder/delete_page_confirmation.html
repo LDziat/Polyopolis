@@ -1,0 +1,17 @@
+{% extends 'builder/base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirm Delete</title>
+</head>
+<body>
+    <h2>Are you sure you want to delete the page titled "{{ page.title }}"?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, Delete</button>
+        <a href="{% url 'page_list' %}">Cancel</a>
+    </form>
+</body>
+</html>
+{% endblock %}

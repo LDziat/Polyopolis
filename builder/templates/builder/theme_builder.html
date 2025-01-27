@@ -1,0 +1,144 @@
+<!-- templates/theme_selector.html -->
+{% extends 'builder/base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Theme Selector</title>
+    <style>
+        :root {
+            --back: {{ back }};
+            --backimg: url("{{ backimg }}");
+            --text: {{ text }};
+            --accent: {{ accent }};
+            --accent_hov: {{ accent_hov }};
+            --accent_text: {{ accent_text }};
+        }
+
+        html, body {
+            background-color: var(--back);
+            background-image: var(--backimg);
+            background-repeat: repeat; /* Repeats the image seamlessly */
+            background-attachment: fixed;
+            color: var(--text);
+            font-family: Arial, sans-serif;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .preview-box {
+            padding: 20px;
+            background-color: var(--accent);
+            border: none;
+            color: var(--accent_text);
+            text-align: center;
+            transition: background-color 0.5s, color 0.5s,
+        }
+
+        .preview-box:hover {
+            background-color: var(--accent_hov);
+            color: var(--accent_text);
+        }
+
+        .color-picker {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            border: none;
+        }
+
+        .color-picker label {
+            margin-right: 10px;
+        }
+
+        .color-picker input {
+            width: 100px;
+            height: 40px;
+            border: none;
+        }
+        input[type=color]{
+            border: none;
+            margin: none;
+            padding: none;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0px;
+        }
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Customize Your Theme</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div>
+                <label for="text">Text Color:&nbsp;</label>
+                <input type="color" id="text" name="text" value="{{ text }}">
+            </div>
+            &nbsp;
+            <br>
+            <div>
+                <label for="accent_text">Accent Text Color:&nbsp;</label>
+                <input type="color" id="accent_text" name="accent_text" value="{{ accent_text }}">
+            </div>
+            &nbsp;
+            <br>
+            <div>
+                <label for="accent_hov">Accent Hover Color:&nbsp;</label>
+                <input type="color" id="accent_hov" name="accent_hov" value="{{ accent_hov }}">
+            </div>
+            &nbsp;
+            <br>
+            <div>
+                <label for="accent">Accent Color:&nbsp;</label>
+                <input type="color" id="accent" name="accent" value="{{ accent }}">
+            </div>
+            &nbsp;
+            <br>
+            <div>
+                <label for="back">Background Color:&nbsp;</label>
+                <input type="color" id="back" name="back" value="{{ back }}">
+            </div>
+            &nbsp;
+            <br>
+            <div>
+                <label for="back">Background Image URL:&nbsp;</label>
+                <input type="text" id="backimg" name="backimg" value="{{ backimg }}">
+            </div>
+            &nbsp;
+            <br>
+            <div>
+                <button type="submit">Preview Changes</button>
+            </div>
+            &nbsp;
+            <br>
+        
+            <div>
+                <label for="theme_name">Theme Name:</label>
+                <input type="text" id="theme_name" name="theme_name" placeholder="Enter theme name">
+            </div>
+            &nbsp;
+            <br>
+            <div>
+                <button type="submit" name="save_theme">Save Theme</button>
+            </div>
+            &nbsp;
+            <br>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

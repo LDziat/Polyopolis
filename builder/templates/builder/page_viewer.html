@@ -1,0 +1,40 @@
+{% extends 'builder/base.html' %}
+{% block content %}
+{% if html_content %}
+<!-- Display the imported HTML content directly -->
+<div class="html-content">
+    {{ html_content|safe }}
+</div>
+{% else %}
+{% if user == page.owner %}
+<a href="{% url 'page_editor' page.id %}"><b>Edit Page</b></a>
+{% else %}
+<p>Page Owner: {{ page.owner }}</p>
+{% endif %}
+<h2>{{ page.title }}</h2>
+
+<ul style="list-style-type: none;">
+    {% for section in sections %}
+    <li><h4>{{ section.name }}</h4>
+        <ul style="list-style-type: none;">
+            {% for element in section.elements.all %}
+            {% if element.element_type == 'image' %}
+            <li><img src="{{ element.content }}"></li>
+            {% elif element.element_type == 'youtube' %}
+            <iframe width="640" height="480" src="{{ element.content }}" 
+            title="YouTube video player" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+            {% elif element.element_type == 'link' %}
+            <li><a href="{{ element.content }}">{{ element.content }}</a></li>
+            {% else %}
+            <li><div class="white_spc">{{ element.content }}</div></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

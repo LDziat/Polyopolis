@@ -1,0 +1,16 @@
+{% extends 'builder/base.html' %}
+
+{% block content %}
+<h2>Design Your Page</h2>
+<form method="post" action="{% url 'editor' %}">
+    {% csrf_token %}
+    <label for="element-text">Add Text:</label>
+    <input type="text" id="element-text" name="element_text">
+    <button type="submit">Add</button>
+</form>
+
+<div class="preview">
+    <h3>Preview:</h3>
+    <!-- Placeholder for dynamically added elements -->
+</div>
+{% endblock %}

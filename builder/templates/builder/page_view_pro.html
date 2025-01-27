@@ -1,0 +1,10 @@
+
+{% if html_content %}
+<!-- Display the imported HTML content directly -->
+    {{ html_content|safe }}
+{% else %}
+<h1> Error: Page data not found.</h1>
+<p>Did you try to pull a sneaky on us?</p> 
+<p>If so, nice try but if not you should probably contact us to figure out what's going on</p>
+{% endif %}
+

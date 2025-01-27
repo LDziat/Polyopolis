@@ -1,0 +1,39 @@
+{% extends 'builder/base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Page</title>
+</head>
+<body>
+    {% if results %}
+    <h2>{{ username }}'s Pages:</h2>
+    <table class="link_list">
+        <tr>
+          <th>Edit</th>
+          <th>Page Name</th>
+          <th>Username</th>
+          <th>Time Created</th>
+          <th>Time Edited</th>
+        </tr>
+        {% for page in results %}
+        <tr>
+                {% if user == page.owner %}
+                <td><a href="{% url 'page_editor' page.id %}"><big>✎</big></a> &nbsp; <a href="{% url 'page_delete' page.id %}"><big>✖</big></a></td>
+                {% else %}
+                <td></td>
+                {% endif %}
+                <td><a href="{% url 'page_viewer' page.id %}">{{ page.title }}</a></td>
+                <td><a href="/user/?query={{ page.owner.username }}">{{ page.owner }}</a></td>
+                <td class="time"><a href="{% url 'page_viewer' page.id %}">{{ page.created_at }}</a></td>
+                <td class="time"><a href="{% url 'page_viewer' page.id %}">{{ page.touch_time }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <h2>{{ username }} has no pages yet!</h2>
+    {% endif %}
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyopolis - WYSIWYG Editor</title>
+    {% if request.session.selected_theme %}<style>{{ request.session.selected_theme|safe }}</style>{% else %}<link rel="stylesheet" href="/static/css/default.css">{% endif %}
+    {% if page.theme != None %}
+    <style>{{ page.theme.css|safe }}</style>
+    {% endif %}
+    <link rel="stylesheet" href="/static/css/layout.css">
+</head>
+<body>
+        <div class="headbar">
+        <div class="left">
+        <div><a href="{% url 'page_list' %}"><img width="400vw" src="{% static '/img/logo_1.png' %}"></a></div>
+        <div class="navbar">
+            <a href="{% url 'page_list' %}"><div class="but_nav_left">Home</div></a>
+            <a href="{% url 'search' %}"><div class="but_nav">Search</div></a>
+            <a href="{% url 'theme' %}"><div class="but_nav">Themes</div></a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'create_page' %}"><div class="but_nav">New Page</div></a>
+            <a href="{% url 'import_html' %}"><div class="but_nav">Import HTML</div></a>
+            {% else %}
+            <a href="{% url 'login' %}"><div class="but_nav">New Page</div></a>
+            <a href="{% url 'login' %}"><div class="but_nav">Import HTML</div></a>
+            {% endif %}
+            <a href=""><div class="but_nav">About</div></a>
+            <a href=""><div class="but_nav_right">Support</div></a>
+        </div>
+
+        </div>
+        
+        <div class="right">
+        <div class="navbar">
+        {% if user.is_authenticated %}
+        <a href="/user/?query={{ user.username }}"><div class="but_nav_left">{{ user.username }}</div></a>
+        <a href="{% url 'logout' %}"><div class="but_nav_right">Logout</div></a>
+        {% else %}
+        <a href="{% url 'signup' %}"><div class="but_nav_left">Signup</div></a>
+        <a href="{% url 'login' %}"><div class="but_nav_right">Login</div></a>
+        {% endif %}
+        </div>
+        </div>
+        </div>
+    
+    
+
+    <div class="content">
+        <div class="centered">
+        {% block content %}{% endblock %}
+        </div>
+    </div>
+
+</body>
+</html>

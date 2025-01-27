@@ -1,0 +1,13 @@
+<!-- themes.html -->
+{% extends 'builder/base.html' %}
+
+{% block content %}
+    <h2>Select a Default Theme</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Change Theme</button>
+    </form>
+    <br>&nbsp;<br>
+    <a href="{% url 'theme_builder' %}"><div class="but">Theme Builder</div></a>
+{% endblock %}

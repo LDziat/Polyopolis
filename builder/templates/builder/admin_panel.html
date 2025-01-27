@@ -1,0 +1,48 @@
+<!-- admin_panel.html -->
+{% extends 'builder/base.html' %}
+
+{% block content %}
+<a href="{% url 'page_editor' page.id %}"><b>Return to Editor</b></a>
+<br>&nbsp;<br>
+<h1>Admin Panel - {{ page.title }}</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="bar">
+        <label for="jscript">Javascript:&nbsp;</label>
+        <input type="checkbox" name="jscript" id="jscript" {% if page.jscript %}checked{% endif %}>&nbsp;- When checked we will strip javascript and list your page as not using Javascript
+        </div>
+        <br>
+    <div class="bar">
+        <label for="theme">Theme:&nbsp;</label>
+    <select name="theme" id="theme">
+        <option value="None" {% if theme.id == page.theme.id %}selected{% endif %}>
+            NONE
+        </option>
+        {% for theme in themes %}
+            <option value="{{ theme.id }}" {% if theme.id == page.theme.id %}selected{% endif %}>
+                {{ theme.name }}
+            </option>
+        {% endfor %}
+    </select>
+    &nbsp;- This allows you to set a specific page theme.
+    </div>
+    <br>
+    <div class="bar">
+    <label for="unlisted">Unlisted:&nbsp;</label>
+    <input type="checkbox" name="unlisted" id="unlisted" {% if page.unlisted %}checked{% endif %}>&nbsp;- This allows you to keep your page unlisted. Be sure to not lose your URL, or your page will become lost.
+    </div>
+    <br>
+    <div class="bar">
+    <label for="locked">Locked:&nbsp;</label>
+    <input type="checkbox" name="locked" id="locked" {% if page.locked %}checked{% endif %}>&nbsp;- This allows you to lock your page with a password. Note: We will NEVER encrypt page data.
+    </div>
+    <br>
+    <div class="bar">
+    <label for="passwd">Password:&nbsp;</label>
+    <input type="password" name="passwd" id="passwd" value="{{ page.passwd }}">
+    </div>
+    <br><br>
+
+    <button type="submit">Save Changes</button>
+</form>
+{% endblock %}

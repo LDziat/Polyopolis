@@ -1,0 +1,65 @@
+{% extends 'builder/base.html' %}
+{% block content %}
+{% if page.content == "" %} 
+<!-- This is for Quikedit mode that allows you to use a super simplified page editor -->
+<div class="headbar">
+    <div class="navbar">
+<a href="{% url 'page_viewer' page.id %}"><div class="but_nav_left"><b>Return to View Mode</b></div></a>
+<div class="but_nav"><input class="strip" type="submit" form="edit_form" name="action" value="Save Changes"></div>
+<a href="{% url 'export_html' page.id %}"><div class="but_nav">Export as HTML</div></a>
+<a href="{% url 'admin_panel' page.id %}"><div class="but_nav">Admin Panel</div></a>
+<a href="{% url 'page_act_html' page.id %}"><div class="but_nav_right">HTML Edit Mode</div></a>
+</div>
+</div>
+
+
+<form id="edit_form" method="post" action="{% url 'save_edits' page.id %}">
+    {% csrf_token %}
+<h2>Editing Page: 
+    <textarea class="edtit" name="page-title" rows="1">{{ page.title }}</textarea>
+</h2>
+    <ul style="list-style-type: none;">
+        {% for section in sections %}
+        <li>
+            <textarea class="edsec" name="section-name-{{ section.id }}" rows="1" >{{ section.name }}</textarea>
+            <ul style="list-style-type: none;">
+                {% for element in section.elements.all %}
+                <li>
+                    {% if element.element_type == 'image' %}
+                        Image: <textarea name="element-content-{{ element.id }}" style="display: block; width: 75vw;">{{ element.content }}</textarea>
+                    {% elif element.element_type == 'youtube' %}
+                        Youtube: <textarea name="element-content-{{ element.id }}" style="display: block; width: 75vw;">{{ element.content }}</textarea>
+                    {% elif element.element_type == 'link' %}
+                        Link: <textarea class="edmode" name="element-content-{{ element.id }}">{{ element.content }}</textarea>
+                    {% else %}
+                        <textarea class="edmode" name="element-content-{{ element.id }}">{{ element.content }}</textarea>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+        <a href="{% url 'create_element' section.id %}"><b>Add Element</b></a>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'create_section' page.id %}"><b>Add Section</b></a>
+    
+</form>
+{% else %}
+<div class="navbar">
+<a href="{% url 'page_viewer' page.id %}"><div class="but_nav_left"><b>Return to View Mode</b></div></a>
+<div class="but_nav"><input class="strip" type="submit" form="edit_form" name="action" value="Save Changes"></div>
+<a href="{% url 'export_html' page.id %}"><div class="but_nav">Export as HTML</div></a>
+<a href="{% url 'admin_panel' page.id %}"><div class="but_nav">Admin Panel</div></a>
+<a href="{% url 'page_act_html' page.id %}"><div class="but_nav_right">Revert to Quikedit</div></a>
+</div>
+<form id="edit_form" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="bar">
+    <button type="submit" name="action" value="preview" formtarget="_blank"><div>Preview in New Tab</div></button>
+    <br>&nbsp;
+    <button type="submit" name="action" value="save"><div>Save Changes</div></button>
+    </div>
+</form>
+{% endif %}
+{% endblock %}
