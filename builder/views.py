@@ -114,7 +114,6 @@ def page_viewer(request, page_id):
     if page.locked:
         return redirect('locked_page', page_id=page.id)
     if page.content:
-        print(page.content)
         return render(request, 'builder/page_view_pro.html', {'page': page, 'html_content': page.content})
     else:
         sections = page.sections.all()
@@ -184,7 +183,7 @@ def admin_panel(request, page_id):
         page.unlisted = request.POST.get('unlisted', 'off') == 'on'
         page.locked = request.POST.get('locked', 'off') == 'on'
         if request.POST.get('theme') != "None":
-            print(request.POST.get('theme'))
+            
             page.theme = get_object_or_404(Theme, id=request.POST.get('theme'))
         else:
             page.theme = None
@@ -383,7 +382,6 @@ def save_edits(request, page_id):
 
         # Update page title
         page_title = request.POST.get('page-title')
-        print(f"Page Title: {page_title}")
         page.title = page_title if page_title else page.title
         page.save()
 
@@ -392,7 +390,6 @@ def save_edits(request, page_id):
         for section in sections:
             section_name_key = f'section-name-{section.id}'
             section_name = request.POST.get(section_name_key)
-            print(f"Section Name for {section.id}: {section_name}")
             if section_name:
                 section.name = section_name
                 section.save()
@@ -401,7 +398,6 @@ def save_edits(request, page_id):
             for element in section.elements.all():
                 element_content_key = f'element-content-{element.id}'
                 element_content = request.POST.get(element_content_key)
-                print(f"Element Content for {element.id}: {element_content}")
                 if element_content:
                     element.content = element_content
                     element.save()
