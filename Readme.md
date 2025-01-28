@@ -1,6 +1,6 @@
 
 # Polyopolis Readme
-This is the source code to the tool [Polyopolis]()
+This is the source code to the tool [Polyopolis](https://ldziat.pythonanywhere.com/), a basic web hosting tool with a built in theme editor.
 Please feel free to push edits and make forks, but do be mindful of licensing if you wish to use the code for your own project.
 ## What Is This?
 Honestly, I'm not too sure. I guess it's a tool to simplify web hosting for some folks, but realistically it's more a toy.
